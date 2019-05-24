@@ -15,7 +15,7 @@ section     .bss
     op2:        resb 10
     op:   resb 10
     conta:      resb 10
-    valorBinario :   resb 10
+    valorBinario:   resb 10
 
 section .text
 global main
@@ -55,11 +55,11 @@ main:
     mul bx ;ober n*1000 em ax
     mov bx, [op1] ;copiar o valor atual do operando 1 em bx
     add ax, bx ;somar o valor atual do operando 1 com o valor do novo dígito processado
-    mov [operando1], ax ;atualizar valor do operando 1 com o dígito processado
+    mov [op1], ax ;atualizar valor do operando 1 com o dígito processado
     
-    
+    xor eax,eax
     ;somar segundo dígito
-    mov al, [valorLido + 1] ;copia o segundo dígito
+    mov al, [valorLido + 1] ;copia o secontagundo dígito
     movzx ax, al
     sub ax, '0' ;converte de ascii para decimal
     mov bx, 10
@@ -69,6 +69,7 @@ main:
     add ax, bx ;somar o valor atual do operando 1 com o valor do novo dígito processado
     mov [op1], ax ;atualizar valor do operando 1 com o dígito processado
     
+    xor eax,eax
     ;somar terceiro dígito
     mov al, [valorLido + 2] ;copia o terceiro dígito
     movzx ax, al
@@ -79,6 +80,7 @@ main:
     add ax, bx ;somar o valor atual do operando 1 com o valor do novo dígito processado
     mov [op1], ax ;atualizar valor do operando 1 com o dígito processado
     
+    xor eax, eax
     ;somar quarto dígito
     mov al, [valorLido + 3] ;copia o quarto dígito
     movzx ax, al
@@ -131,7 +133,10 @@ main:
     ;armazenar operando 2
     mov [op2], word 0
     
+    
+     xor eax,eax
     ;somar primeiro dígito
+  
     mov al, [valorLido] ;copia o primeiro dígito
     movzx ax, al
     sub ax, '0' ;converte de ascii para decimal
@@ -237,11 +242,16 @@ resultado:
         
         
 Binario:
-    mov ax ,conta
-    div ax ,2
+    mov ecx,[conta]
+    mov eax ,ecx
+    mov cx,2
+    div cx
+    mov cx,ax
     mov dx,ax
-    add [valorBinario],dx
+    ;add valorBinario,dx
     
+   
+    cmp     cx,1
     jne     Binario
     
     mov     ebp, esp; for correct debugging
